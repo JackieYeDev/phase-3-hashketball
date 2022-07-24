@@ -127,3 +127,55 @@ def game_hash
 end
 
 # Write code here
+def player_stats(player)
+  player_stats = {}
+  game_hash.keys.each do |key| 
+    if game_hash[key][:players].find {|play| play[:player_name] == player} 
+      player_stats = game_hash[key][:players].find {|play| play[:player_name] == player}
+    end
+  end
+  player_stats
+end
+
+def team_data(team)
+  team_data = {}
+  game_hash.keys.each do |key|
+    if game_hash[key][:team_name].include?(team)
+      team_data = game_hash[key]
+    end
+  end
+  team_data
+end
+
+def num_points_scored(player)
+  player_stats(player)[:points]
+end
+
+def shoe_size(player)
+  player_stats(player)[:shoe]
+end
+
+def team_colors(team_name)
+  team_data(team_name)[:colors]
+end
+
+def team_names
+  team_names = game_hash.keys.map {|key| game_hash[key][:team_name]}
+end
+
+def player_numbers(team_name)
+  player_numbers = team_data(team_name)[:players].map {|player| player[:number]}
+end
+
+def big_shoe_rebounds
+  largest_shoe_size = 0
+  player_with_largest_shoe_size = {}
+  all_players = game_hash.keys.map {|key| game_hash[key][:players]}.flatten
+  all_players.each do |player|
+    if player[:shoe] > largest_shoe_size
+      player_with_largest_shoe_size = player
+      largest_shoe_size = player[:shoe]
+    end
+  end
+  player_with_largest_shoe_size[:rebounds]
+end
